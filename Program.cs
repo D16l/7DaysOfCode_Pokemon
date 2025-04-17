@@ -1,40 +1,41 @@
 ﻿using System.Text.Json;
 using System.Net.Http;
+using _7DaysOfCode_Pokemon.Models;
+using _7DaysOfCode_Pokemon.Helpers;
+using _7DaysOfCode_Pokemon.FrontEnd;
+using _7DaysOfCode_Pokemon.FrontEnd.Menus;
 
 namespace _7DaysOfCode_Pokemon;
 public class Program
 {
     public static async Task Main(string[] args)
     {
-        Console.WriteLine("Bem vindo(a)! Escolha um dos pokemons abaixos:");
-        var pokemons = await PokemonJsonList.GetAsync();
-        var names = pokemons.results.Select(p => p.Name).ToList();
-
-        for (int i = 0; i < names.Count; i++) 
+        Console.Write("Carregando");
+        var task = Pokemon.CreatePokemonsAsync();
+        while (!task.IsCompleted)
         {
-            Console.WriteLine($"{i +1} - {names[i]}");
+            Console.Write(".");
+            await Task.Delay(1000);
         }
+        await task;
 
-        Pokemon.CreatePokemons(pokemons);
-
-        var userChoice = Console.ReadLine();
-        Console.Clear();
-        if (Pokemon.ListOfAllPokemons.ContainsKey(userChoice))
+        Dictionary<int, Action> menus = new()
         {
-            var chosedPokemon = Pokemon.ListOfAllPokemons[userChoice];
-            var pokemon = await PokemonPropertiesJsonList.GetAsync(chosedPokemon);
-            Console.WriteLine($"Nome Pokemon: {pokemon.Name}");
-            Console.WriteLine($"Altura: {pokemon.Height}");
-            Console.WriteLine($"Peso: {pokemon.Weight}");
-            Console.WriteLine("Habilidades:");
-            foreach (var ability in pokemon.Abilities)
+            {0, () => new MenuUser().Start() },
+            {1, () => new MenuMain().Start() },
+            {2, () => new MenuPokemon().Start() },
+            {3, () => new MenuShowMyPokemons().Start() },
+            {4, () => new MenuChoosePokemon().Start() },
+            {5, () => new MenuAboutPokemon().Start() },
+            {6, () => new MenuAdoptPokemon().Start() }
+        };
+
+        while (true)
+        {
+            if (menus.ContainsKey(User.UserMenuChoice))
             {
-                Console.WriteLine($"{ability.Ability.Name.ToUpper()}");
+                menus[User.UserMenuChoice].Invoke();
             }
-        }
-        else
-        {
-            Console.WriteLine("Pokemon não encontrado");
         }
     }
 }
