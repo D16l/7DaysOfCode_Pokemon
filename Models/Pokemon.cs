@@ -1,80 +1,85 @@
-﻿using _7DaysOfCode_Pokemon.Helpers;
-using System.Text.Json.Serialization;
-
+﻿using _7DaysOfCode_Pokemon.Controller;
+using System.Text.Json;
 namespace _7DaysOfCode_Pokemon.Models;
+
 public class Pokemon
 {
-    [JsonInclude]public int? Id { get; private set; }
-    private string? _name;
-    [JsonInclude]public string? Name 
-    { 
-        get => _name;
-        private set => _name = value?.ToUpper();
-    }
-    [JsonInclude]public string? Url { get; private set; }
-    [JsonInclude]public int? Height { get; private set; }
-    [JsonInclude]public int? Weight { get; private set; }
-    [JsonInclude]public int? BaseExperience { get; private set; }
-    [JsonInclude]public List<Abilities>? Abilities { get; private set; }
-    [JsonConstructor] public Pokemon() { } //Construtor para o JsonSerializer
+    public static Pokemon? This { get; private set; }
+    public static int Id { get; private set; }
+    private static int CurrentChainId { get; set; }
 
-    private List<PokemonAbilitiesInfo> PokemonAbilities = new List<PokemonAbilitiesInfo>();
+    private string Name { get; set; }
+    private int Health { get; set; }
+    private int Height { get; set; }
+    private int Weight { get; set; }
+    private int Happiness { get; set; }
+    private int Hunger { get; set; }
+    private HygienicState Hygiene { get; set; }
+    private int Experience { get; set; }
 
-    private static List<Pokemon> Pokemons = new List<Pokemon>();
 
-    public static List<string> List = new List<string>();
-
-    private Pokemon(int? id, string name, string? url, int? height, int? weight, int? baseExperience, List<Abilities>? abilities)
+    private static Dictionary<string, Tuple<int,int,int,int>> Evolutions = []; //Dictionary<pokemon,<id,height,weight,experience>>
+    private Pokemon(int id, string name, int health,int height, int weight, int happiness, int hunger, HygienicState hygiene, int experience)
     {
         Id = id;
-        Name = name;
-        Url = url;
+        Name = name.ToUpper();
+        Health = health;
         Height = height;
         Weight = weight;
-        BaseExperience = baseExperience;
-        Abilities = abilities;
-        Pokemons.Add(this);
-        List.Add(Name);
+        Happiness = happiness;
+        Hunger = hunger;
+        Hygiene = hygiene;
+        Experience = experience;
+        This = this;
+    }
+    public static async Task CreatePokemonAsync()
+    {
+        int randomIDPokemon;
+        do { randomIDPokemon = new Random().Next(0, 550);} 
+        while (randomIDPokemon == CurrentChainId);
+
+        CurrentChainId = randomIDPokemon;
+
+        var jsonEvolutionChain = await PokemonAPIJson.GetAsync("https://pokeapi.co/api/v2/evolution-chain/", randomIDPokemon);
+
+        JsonElement chain = jsonEvolutionChain.GetProperty("chain");
+        await ExtractDataFromJson(chain);
+        new Tamagotchi();
     }
 
-    public static async Task CreatePokemonsAsync()
+    private static async Task ExtractDataFromJson(JsonElement currentChain, bool isRoot = true)
     {
-        var pokemonList = await PokemonJsonList.GetAsync();
-        if (pokemonList == null) 
-            throw new ArgumentNullException(nameof(pokemonList), "Lista de pokemons não contém itens.");
-        foreach (var pokemon in pokemonList.results!)
-        {
-            var pokemonProperties = await PokemonPropertiesJsonList.GetAsync(pokemon.Url!);
-            var newPokemon = new Pokemon(pokemonProperties.Id,pokemon.Name!, pokemon.Url,pokemonProperties.Height,pokemonProperties.Weight,pokemonProperties.BaseExperience,pokemonProperties.Abilities);
+        string name = currentChain.GetProperty("species").GetProperty("name").GetString()!;
+        int id = int.Parse(currentChain.GetProperty("species").GetProperty("url").GetString()!.Split('/').Reverse().Skip(1).First());
 
-            foreach (var prop in pokemonProperties.Abilities!)
+        var jsonHappiness = await PokemonAPIJson.GetAsync("https://pokeapi.co/api/v2/pokemon-species/", id);
+        int baseHappiness = jsonHappiness.GetProperty("base_happiness").GetInt16();
+
+        var jsonPokemon = await PokemonAPIJson.GetAsync("https://pokeapi.co/api/v2/pokemon/", id);
+        int baseExperience = jsonPokemon.GetProperty("base_experience").GetInt16();
+        int height = jsonPokemon.GetProperty("height").GetInt16();
+        int weight = jsonPokemon.GetProperty("weight").GetInt16();
+
+        if (isRoot)
+        {
+            new Pokemon(id, name, 100, height, weight, 50, 50, hygiene: HygienicState.Dirty, baseExperience);
+        }
+        else
+        {
+            Evolutions.Add(name, new Tuple<int, int, int, int>(id, height, weight, baseExperience));
+        }
+
+        if (currentChain.TryGetProperty("evolves_to", out JsonElement evolvesTo) && evolvesTo.ValueKind == JsonValueKind.Array)
+        {
+            foreach (var evolve in evolvesTo.EnumerateArray())
             {
-                if (!newPokemon.PokemonAbilities.Any(a => a.Ability?.Ability?.Name == prop.Ability?.Name))
-                {
-                    if (prop.Ability == null) continue;
-                    newPokemon.PokemonAbilities.Add(new PokemonAbilitiesInfo(prop, prop.Ability!));
-                }
+                await ExtractDataFromJson(evolve, isRoot = false);
             }
         }
     }
 
-    public static Pokemon GetPokemon(string name)
+    public (int id, string name, int health, int height, int weight, int happiness, int hunger, HygienicState hygiene, int experience, Dictionary<string, Tuple<int, int, int, int>> evolutions) GetPokemonData()
     {
-        if (string.IsNullOrEmpty(name))
-        throw new ArgumentNullException("O nome precisa ter algum valor.");
-
-        if (Pokemons.Exists(n => n.Name == name))
-        {
-            return Pokemons.Find(n => n.Name == name)!;
-        }
-        else
-        {
-            throw new KeyNotFoundException($"Pokemon com o nome '{name}' não encontrado");
-        }
-    }
-
-    public static void RemovePokemon(Pokemon pokemon)
-    {
-        Pokemons.Remove(pokemon);
+        return (Id, Name, Health, Height, Weight, Happiness, Hunger, Hygiene, Experience, Evolutions);
     }
 }
