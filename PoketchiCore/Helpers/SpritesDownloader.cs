@@ -18,7 +18,7 @@ internal class SpritesDownloader
         catch (Exception e )
         {
             
-            throw new Exception($"Erro ao baixar a imagem: {e.Message}");
+            throw new Exception("Não foi possível encontrar ou baixar a imagem do Pokémon. Por favor, tente novamente.");
         }
     }
 }
