@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PoketchiUI"
         mc:Ignorable="d"
         Icon="pack://application:,,,/Sprites/app_icon.ico"
-        Title="MainWindow" Height="450" Width="800"
+        Title="Poketchi" Height="450" Width="800"
         ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="BlockProgressBar" TargetType="ProgressBar">
