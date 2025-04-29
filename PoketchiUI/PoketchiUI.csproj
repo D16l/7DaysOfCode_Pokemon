@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Sprites\app_icon.ico</ApplicationIcon>
+    <AssemblyName>Poketchi</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,7 @@
     <None Remove="Sprites\1charge.png" />
     <None Remove="Sprites\2charge.png" />
     <None Remove="Sprites\3charge.png" />
+    <None Remove="Sprites\app_icon.ico" />
     <None Remove="Sprites\background.png" />
     <None Remove="Sprites\bath.png" />
     <None Remove="Sprites\bath_saturated.png" />
@@ -41,6 +44,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Sprites\3charge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\app_icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Sprites\bath.png">
@@ -73,6 +79,7 @@
     <Content Include="config.env">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sprites\app_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

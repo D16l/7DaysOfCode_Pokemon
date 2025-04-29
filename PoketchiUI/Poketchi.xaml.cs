@@ -10,9 +10,9 @@ using WpfAnimatedGif;
 
 namespace PoketchiUI
 {
-    public partial class MainWindow : Window
+    public partial class Poketchi : Window
     {
-        public MainWindow()
+        public Poketchi()
         {
             InitializeComponent();
             Loaded += async (_, _) =>
