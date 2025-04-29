@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35431.28
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoketchiCore", "PoketchiCore\PoketchiCore.csproj", "{B0D5C882-7469-41EB-8320-2520438F098D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoketchiUI", "PoketchiUI\PoketchiUI.csproj", "{FD4FB8DE-F300-4264-8141-59D100C79870}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0D5C882-7469-41EB-8320-2520438F098D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D5C882-7469-41EB-8320-2520438F098D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D5C882-7469-41EB-8320-2520438F098D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D5C882-7469-41EB-8320-2520438F098D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD4FB8DE-F300-4264-8141-59D100C79870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD4FB8DE-F300-4264-8141-59D100C79870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD4FB8DE-F300-4264-8141-59D100C79870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD4FB8DE-F300-4264-8141-59D100C79870}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C4497C3-0758-4898-9571-6AA40B2793C9}
+	EndGlobalSection
+EndGlobal

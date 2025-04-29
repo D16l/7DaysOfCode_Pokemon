@@ -1,9 +1,11 @@
-﻿using _7DaysOfCode_Pokemon.Controller;
+﻿using PoketchiCore.Controller;
+using System.Diagnostics;
 using System.Text.Json;
-namespace _7DaysOfCode_Pokemon.Models;
+namespace PoketchiCore.Models;
 
 public class Pokemon
 {
+    private static bool isDead;
     public static Pokemon? This { get; private set; }
     public static int Id { get; private set; }
     private static int CurrentChainId { get; set; }
@@ -14,12 +16,12 @@ public class Pokemon
     private int Weight { get; set; }
     private int Happiness { get; set; }
     private int Hunger { get; set; }
-    private HygienicState Hygiene { get; set; }
+    private int Dirtness { get; set; }
     private int Experience { get; set; }
 
 
     private static Dictionary<string, Tuple<int,int,int,int>> Evolutions = []; //Dictionary<pokemon,<id,height,weight,experience>>
-    private Pokemon(int id, string name, int health,int height, int weight, int happiness, int hunger, HygienicState hygiene, int experience)
+    private Pokemon(int id, string name, int health,int height, int weight, int happiness, int hunger, int dirtness, int experience)
     {
         Id = id;
         Name = name.ToUpper();
@@ -28,20 +30,20 @@ public class Pokemon
         Weight = weight;
         Happiness = happiness;
         Hunger = hunger;
-        Hygiene = hygiene;
+        Dirtness = dirtness;
         Experience = experience;
         This = this;
+        isDead = false;
     }
     public static async Task CreatePokemonAsync()
     {
         int randomIDPokemon;
-        do { randomIDPokemon = new Random().Next(0, 550);} 
+        do { randomIDPokemon = new Random().Next(1, 550);} 
         while (randomIDPokemon == CurrentChainId);
 
         CurrentChainId = randomIDPokemon;
 
         var jsonEvolutionChain = await PokemonAPIJson.GetAsync("https://pokeapi.co/api/v2/evolution-chain/", randomIDPokemon);
-
         JsonElement chain = jsonEvolutionChain.GetProperty("chain");
         await ExtractDataFromJson(chain);
         new Tamagotchi();
@@ -62,7 +64,7 @@ public class Pokemon
 
         if (isRoot)
         {
-            new Pokemon(id, name, 100, height, weight, 50, 50, hygiene: HygienicState.Dirty, baseExperience);
+            new Pokemon(id, name, 100, height, weight, 50, 50, 20, baseExperience);
         }
         else
         {
@@ -78,8 +80,8 @@ public class Pokemon
         }
     }
 
-    public (int id, string name, int health, int height, int weight, int happiness, int hunger, HygienicState hygiene, int experience, Dictionary<string, Tuple<int, int, int, int>> evolutions) GetPokemonData()
+    public (int id, string name, int health, int height, int weight, int happiness, int hunger, int dirtness, int experience, Dictionary<string, Tuple<int, int, int, int>> evolutions, bool isDead) GetPokemonData()
     {
-        return (Id, Name, Health, Height, Weight, Happiness, Hunger, Hygiene, Experience, Evolutions);
+        return (Id, Name, Health, Height, Weight, Happiness, Hunger, Dirtness, Experience, Evolutions, isDead);
     }
 }

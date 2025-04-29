@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".env" />
+    <None Remove="config.env" />
+    <None Remove="Sprites\0charge.png" />
+    <None Remove="Sprites\1charge.png" />
+    <None Remove="Sprites\2charge.png" />
+    <None Remove="Sprites\3charge.png" />
+    <None Remove="Sprites\background.png" />
+    <None Remove="Sprites\bath.png" />
+    <None Remove="Sprites\bath_saturated.png" />
+    <None Remove="Sprites\egg.gif" />
+    <None Remove="Sprites\feed.png" />
+    <None Remove="Sprites\feed_saturated.png" />
+    <None Remove="Sprites\heal.png" />
+    <None Remove="Sprites\heal_saturated.png" />
+    <None Remove="Sprites\height.png" />
+    <None Remove="Sprites\play.png" />
+    <None Remove="Sprites\play_saturated.png" />
+    <None Remove="Sprites\sprite.gif" />
+    <None Remove="Sprites\train.png" />
+    <None Remove="Sprites\train_saturated.png" />
+    <None Remove="Sprites\tumb.png" />
+    <None Remove="Sprites\weight.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Sprites\1charge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\2charge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\3charge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\bath.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\bath_saturated.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\feed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\feed_saturated.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\heal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\heal_saturated.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\height.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\play_saturated.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="config.env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Sprites\0charge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PoketchiCore\PoketchiCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Sprites\background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\egg.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\play.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\sprite.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\train.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\train_saturated.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\tumb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprites\weight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>

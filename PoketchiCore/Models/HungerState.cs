@@ -1,5 +1,5 @@
-﻿namespace _7DaysOfCode_Pokemon.Models;
-public enum StomachState
+﻿namespace PoketchiCore.Models;
+public enum HungerState
 {
     Famished = 0,
     Starving = 20,

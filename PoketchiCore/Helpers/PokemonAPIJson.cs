@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
-namespace _7DaysOfCode_Pokemon.Controller;
-public class PokemonAPIJson
+namespace PoketchiCore.Controller;
+internal class PokemonAPIJson
 {
     private static readonly HttpClient httpClient = new HttpClient();
     public static async Task<JsonElement> GetAsync(string url,int id)

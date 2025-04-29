@@ -1,4 +1,4 @@
-﻿namespace _7DaysOfCode_Pokemon.Models;
+﻿namespace PoketchiCore.Models;
 public enum MoodState
 {
     Miserable = 0,

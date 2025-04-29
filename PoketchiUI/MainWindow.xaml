@@ -1,0 +1,247 @@
+﻿<Window x:Class="PoketchiUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PoketchiUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="BlockProgressBar" TargetType="ProgressBar">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Background="#6b6b6b" Padding="2">
+                            <ItemsControl x:Name="BlocksPanel" HorizontalAlignment="Stretch">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Width="10" Height="20" Fill="#d68c72" Margin="1"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsIndeterminate" Value="True">
+                                <Setter TargetName="BlocksPanel" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="MainGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Sprites/background.png" Stretch="Fill"/>
+        </Grid.Background>
+        <Image x:Name="TamagotchiImage" Margin="51,99,591,179" Stretch="Uniform" Visibility="Hidden"/>
+        <Image x:Name="EggImage" Margin="65,99,591,179" Visibility="Visible"/>
+        <Image x:Name="TamagotchiHeight" Source="pack://application:,,,/Sprites/height.png" Margin="10,268,754,126" Visibility="Hidden"/>
+        <Image x:Name="TamagotchiWeight" Source="pack://application:,,,/Sprites/weight.png" Margin="166,260,598,122" Visibility="Hidden"/>
+        <Button x:Name ="btnPlay" Margin="20,334,599,42" Width="181" Click="OnPlayClicked" Visibility="Hidden">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Image x:Name="img" Source="pack://application:,,,/Sprites/play.png" 
+                   Stretch="Uniform" Width="154" RenderTransformOrigin="0.491,0.522"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="img" Property="Source" 
+                            Value="pack://application:,,,/Sprites/play_saturated.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name ="btnFeed" Margin="161,334,458,42" Click="OnFeedClicked" Width="181" Visibility="Hidden">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Image x:Name="img" Source="pack://application:,,,/Sprites/feed.png" 
+                   Stretch="Uniform" Width="154" RenderTransformOrigin="0.491,0.522"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="img" Property="Source" 
+                            Value="pack://application:,,,/Sprites/feed_saturated.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name ="btnBath" Margin="302,334,317,42" Click="OnBathClicked" Width="181" Visibility="Hidden">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Image x:Name="img" Source="pack://application:,,,/Sprites/bath.png" 
+                   Stretch="Uniform" Width="154" RenderTransformOrigin="0.491,0.522"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="img" Property="Source" 
+                            Value="pack://application:,,,/Sprites/bath_saturated.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name ="btnTrain" Margin="450,334,169,42" Click="OnTrainClicked" Visibility="Hidden">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Image x:Name="img" Source="pack://application:,,,/Sprites/train.png" 
+                   Stretch="Uniform" Width="154" RenderTransformOrigin="0.491,0.522"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="img" Property="Source" 
+                            Value="pack://application:,,,/Sprites/train_saturated.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name ="btnHeal" Margin="584,334,35,42" Click="OnHealClicked" Width="181" Visibility="Hidden">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Image x:Name="img" Source="pack://application:,,,/Sprites/heal.png" 
+                   Stretch="Uniform" Width="154" RenderTransformOrigin="0.491,0.522"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="img" Property="Source" 
+                            Value="pack://application:,,,/Sprites/heal_saturated.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label x:Name="TamagotchiLabel"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Margin="26,24,0,0"
+           Foreground="#FF505050" Width="237" FontFamily="Bahnschrift SemiBold Condensed"/>
+        <ProgressBar
+           x:Name="TamagotchiHealth"
+           Height="20"
+           Minimum="0"
+           Maximum="100"
+           Value="50"
+           Margin="400,43,43,0"
+           VerticalAlignment="Top"
+           RenderTransformOrigin="0.5,0.5"
+           Visibility="Hidden"
+           Style="{StaticResource BlockProgressBar}"
+            >
+            <ProgressBar.LayoutTransform>
+                <ScaleTransform ScaleY="1.5"/>
+            </ProgressBar.LayoutTransform>
+        </ProgressBar>
+        <Label x:Name="HealthLabel"
+           Content="Health:"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Margin="303,35,0,0"
+           Foreground="#FF505050" Width="90" FontFamily="Bahnschrift SemiBold Condensed" Height="49"
+           Visibility="Hidden"/>
+        <Label x:Name="MoodLabel"
+           Content="Mood:"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Margin="297,94,0,0"
+           Foreground="#FF505050" Width="90" FontFamily="Bahnschrift SemiBold Condensed" Height="49"
+           Visibility="Hidden"/>
+        <Label x:Name="MoodValue"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="411,92,0,0"
+           Foreground="#FF505050" Width="136" FontFamily="Bahnschrift SemiBold Condensed" Height="49"
+           Visibility="Hidden"/>
+        <Label x:Name="AppetiteLabel"
+           Content="Appetite:"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Margin="305,143,0,0"
+           Foreground="#FF505050" Width="107" FontFamily="Bahnschrift SemiBold Condensed" Height="49"
+           Visibility="Hidden"/>
+        <Label x:Name="AppetiteValue"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="412,143,0,0"
+           Foreground="#FF505050" Width="135" FontFamily="Bahnschrift SemiBold Condensed" Height="49"
+           Visibility="Hidden"/>
+        <Label x:Name="HygieneLabel"
+           Content="Hygiene:"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Margin="303,195,0,0"
+           Foreground="#FF505050" Width="107" FontFamily="Bahnschrift SemiBold Condensed" Height="49"
+           Visibility="Hidden"/>
+        <Label x:Name="HygieneValue"
+           FontSize="32"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="412,195,0,0"
+           Foreground="#FF505050" Width="136" FontFamily="Bahnschrift SemiBold Condensed" Height="49"
+           Visibility="Hidden"/>
+        <Label x:Name="HeigthValue"
+           FontSize="25"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="26,258,0,0"
+           Foreground="#FF505050" Width="82" FontFamily="Bahnschrift SemiBold Condensed" Height="35"
+           Visibility="Hidden"/>
+        <Label x:Name="WeigthValue"
+            FontSize="25"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Center"
+            Margin="188,258,0,0"
+            Foreground="#FF505050" Width="75" FontFamily="Bahnschrift SemiBold Condensed" Height="35"
+            Visibility="Hidden"/>
+        <Label x:Name="TimeLivedLabel"
+               Content="Time Lived"
+            FontSize="50"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Margin="440,78,0,0"
+            Foreground="#FF505050" Width="201" FontFamily="Bahnschrift SemiBold Condensed" Height="62" Visibility="Hidden"/>
+        <Label x:Name="TimeLivedValue"
+               Content="00:05:25"
+            FontSize="50"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Margin="450,133,0,0"
+            Foreground="#FF505050" Width="181" FontFamily="Bahnschrift SemiBold Condensed" Height="57" Visibility="Hidden"/>
+        <Image x:Name="HealImage" Width="29" Stretch="Uniform" Margin="719,326,34,66" Visibility="Hidden"/>
+        <Image x:Name="Tumb" Source="pack://application:,,,/Sprites/tumb.png" Margin="80,111,620,175" Visibility="Hidden"/>
+    </Grid>
+</Window>
