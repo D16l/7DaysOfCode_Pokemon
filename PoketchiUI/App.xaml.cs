@@ -9,6 +9,14 @@ namespace PoketchiUI
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            this.DispatcherUnhandledException += (sender, args) =>
+            {
+                MessageBox.Show(args.Exception.ToString(), "Erro");
+                args.Handled = true;
+            };
+        }
     }
 
 }

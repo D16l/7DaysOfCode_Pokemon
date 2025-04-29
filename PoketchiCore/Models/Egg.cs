@@ -7,7 +7,7 @@ public partial class Egg
 {
     public static DateTime HatchStartTime { get; private set; }
 
-    private static readonly TimeSpan HatchDuration = TimeSpan.FromMinutes(1);
+    private static readonly TimeSpan HatchDuration = TimeSpan.FromHours(1);
     public static TimeSpan TimeRemaining =>
     TimeSpan.FromTicks(Math.Max((HatchDuration - (DateTime.UtcNow - HatchStartTime)).Ticks, 0));
     public static bool IsHatched { get; private set; } = false;
@@ -16,7 +16,6 @@ public partial class Egg
     public static bool Created { get; private set; } = false;
     public static async Task Create()
     {
-        Debug.WriteLine("criei");
         if (Tamagotchi.IsDead) Created = false;
         if (Created) return;
         IsHatched = false;
